@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="min-height:56px;display:flex;align-items:center;gap:11px;padding:8px 18px 11px">
+  <sc-if value="{{ isChild }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ onBack }}" aria-label="Regresar" style="width:44px;height:44px;flex:none;border:1px solid #E4EBE8;background:#fff;border-radius:14px;color:#2F3E52;font-size:18px;display:inline-flex;align-items:center;justify-content:center" style-hover="border-color:#9FD6C8">‹</button>
+  </sc-if>
+  <sc-if value="{{ isRoot }}" hint-placeholder-val="{{ true }}">
+    <span aria-hidden="true" style="position:relative;width:28px;height:28px;flex:none;border-radius:50%;background:linear-gradient(160deg,#DFF4EE 0%,#CFE9E3 55%,#E9E1FB 100%);overflow:hidden">
+      <span style="position:absolute;right:5px;top:5px;width:7px;height:7px;border-radius:50%;background:#F0D9B8"></span>
+      <span style="position:absolute;left:-7px;bottom:-12px;width:42px;height:22px;border-radius:50%;background:rgba(255,255,255,.75);transform:rotate(-8deg)"></span>
+    </span>
+    <span style="font-family:Outfit,sans-serif;font-weight:500;font-size:19px;letter-spacing:-.01em;color:#2F3E52;line-height:1">Serena</span>
+  </sc-if>
+  <sc-if value="{{ hasIcon }}" hint-placeholder-val="{{ false }}">
+    <span aria-hidden="true" style="width:40px;height:40px;flex:none;border-radius:14px;background:{{ iconBg }};color:{{ iconInk }};display:inline-flex;align-items:center;justify-content:center;padding:9px">{{ icon }}</span>
+  </sc-if>
+  <div style="display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 0">
+    <sc-if value="{{ isChild }}" hint-placeholder-val="{{ false }}">
+      <span style="font-family:Outfit,sans-serif;font-weight:500;font-size:19px;line-height:1.2;color:#2F3E52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</span>
+      <sc-if value="{{ hasSubtitle }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:11.5px;color:#93A0AF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ subtitle }}</span>
+      </sc-if>
+    </sc-if>
+  </div>
+  <sc-if value="{{ showAvatar }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ onAvatar }}" aria-label="Tu perfil" style="width:36px;height:36px;flex:none;border:none;border-radius:50%;background:#E9E1FB;color:#5B4F94;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">{{ initials }}</button>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:430,&quot;height&quot;:70},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;root&quot;,&quot;child&quot;],&quot;default&quot;:&quot;root&quot;,&quot;tsType&quot;:&quot;'root' | 'child'&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Historial de sesiones&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;subtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;initials&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;OM&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;icon&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;React.ReactNode&quot;},&quot;iconBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#DFF4EE&quot;,&quot;options&quot;:[&quot;#DFF4EE&quot;,&quot;#E9E1FB&quot;,&quot;#F6EADA&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;iconInk&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2F6B5F&quot;,&quot;options&quot;:[&quot;#2F6B5F&quot;,&quot;#5B4F94&quot;,&quot;#8A6A3F&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;onBack&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;onAvatar&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const variant = p.variant ?? 'root';
+    const isChild = variant === 'child';
+    return {
+      isRoot: !isChild, isChild,
+      title: p.title ?? '', subtitle: p.subtitle ?? '', hasSubtitle: isChild && !!p.subtitle,
+      hasIcon: isChild && !!p.icon, icon: p.icon,
+      iconBg: p.iconBg ?? '#DFF4EE', iconInk: p.iconInk ?? '#2F6B5F',
+      initials: p.initials ?? 'OM', showAvatar: !!p.showAvatar,
+      onBack: p.onBack ?? (() => {}), onAvatar: p.onAvatar ?? (() => {})
+    };
+  }
+}
+</script>
+</body>
+</html>
